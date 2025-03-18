@@ -1,14 +1,8 @@
 package com.claudsaints.spring.config;
 
-import com.claudsaints.spring.entities.Category;
-import com.claudsaints.spring.entities.Order;
-import com.claudsaints.spring.entities.Product;
-import com.claudsaints.spring.entities.User;
+import com.claudsaints.spring.entities.*;
 import com.claudsaints.spring.entities.enums.OrderStatus;
-import com.claudsaints.spring.repositories.CategoryRepository;
-import com.claudsaints.spring.repositories.OrderRepository;
-import com.claudsaints.spring.repositories.ProductRepository;
-import com.claudsaints.spring.repositories.UserRepository;
+import com.claudsaints.spring.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +22,8 @@ public class TestClass implements CommandLineRunner {
     private CategoryRepository categoryRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -51,6 +47,10 @@ public class TestClass implements CommandLineRunner {
         categoryRepository.saveAll(Arrays.asList(c1,c2,c3));
         userRepository.saveAll(Arrays.asList(u1,u2));
         orderRepository.saveAll(Arrays.asList(o1,o2,o3));
+
+
+
+
         productRepository.saveAll(Arrays.asList(p1,p2,p3));
 
         p1.getCategories().add(c3);
@@ -59,5 +59,11 @@ public class TestClass implements CommandLineRunner {
 
         productRepository.saveAll(Arrays.asList(p1,p2,p3));
 
+
+        OrderItem oi1 = new OrderItem(o1,p1,p1.getPrice(),2);
+        OrderItem oi2 = new OrderItem(o2,p2,p2.getPrice(),1);
+        OrderItem oi3 = new OrderItem(o3,p3,p3.getPrice(),2);
+
+        orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3));
     }
 }
