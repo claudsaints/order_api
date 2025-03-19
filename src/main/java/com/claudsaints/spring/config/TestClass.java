@@ -65,5 +65,10 @@ public class TestClass implements CommandLineRunner {
         OrderItem oi3 = new OrderItem(o3,p3,p3.getPrice(),2);
 
         orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3));
+
+        //objeto dependente
+        Payment pay1 = new Payment(null,Instant.parse("2025-03-03T21:53:07Z"),o1);
+        o1.setPayment(pay1);
+        orderRepository.save(o1);
     }
 }
