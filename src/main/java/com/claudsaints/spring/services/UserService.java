@@ -2,6 +2,7 @@ package com.claudsaints.spring.services;
 
 import com.claudsaints.spring.entities.User;
 import com.claudsaints.spring.repositories.UserRepository;
+import com.claudsaints.spring.services.exceptions.ResourceNotFindException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class UserService {
 
     public User findById(Long id){
         Optional<User> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFindException(id));
     }
 
     public User insert(User obj){
