@@ -1,5 +1,6 @@
 package com.claudsaints.spring.resources.exceptions;
 
+import com.claudsaints.spring.services.exceptions.DataIntegrityException;
 import com.claudsaints.spring.services.exceptions.ResourceNotFindException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,13 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> resourceNotFond(ResourceNotFindException e, HttpServletRequest request) {
         String error = "Resource not found";
         HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity<StandardError> databaseException(DataIntegrityException e, HttpServletRequest request) {
+        String error = "Database Error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }

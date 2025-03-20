@@ -2,8 +2,11 @@ package com.claudsaints.spring.services;
 
 import com.claudsaints.spring.entities.User;
 import com.claudsaints.spring.repositories.UserRepository;
+import com.claudsaints.spring.services.exceptions.DataIntegrityException;
 import com.claudsaints.spring.services.exceptions.ResourceNotFindException;
+import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +31,11 @@ public class UserService {
     }
 
     public void delete(Long id){
-        repository.deleteById(id);
+        try{
+            repository.deleteById(id);
+        }catch (RuntimeException e){
+            throw new ResourceNotFindException(id);
+        }
 
     }
 
